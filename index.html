@@ -1,494 +1,512 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Мета-теги для PWA -->
-  <meta name="theme-color" content="#ff8800">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="icon.jpg">
-  <title>ElevenX Launcher</title>
-  
-  <!-- Встроенные стили (CSS) -->
-  <style>
-    /* Основные цвета: оранжевый акцент, черно-белая тема с осенними нотками */
-    :root {
-      --accent-color: #ff8800;
-      --bg-color: #fdf6e3; /* мягкий светлый тон с осенним настроением */
-      --text-color: #333;
-      --dark-bg: #333;
-      --dark-text: #fdf6e3;
-    }
-    
-    /* Сброс стилей */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      overflow-x: hidden;
-    }
-    
-    /* Анимация появления страницы */
-    .fade-in {
-      animation: fadeIn 1s ease-in-out forwards;
-      opacity: 0;
-    }
-    
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    
-    /* Экран выбора языка и ввода ника */
-    #login-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: var(--accent-color);
-      color: #fff;
-    }
-    
-    #login-screen button {
-      margin: 10px;
-      padding: 10px 20px;
-      background: var(--dark-bg);
-      color: var(--dark-text);
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    
-    #login-form {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    #login-form input {
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    
-    /* Основной контент */
-    #main-content {
-      display: none;
-      animation: fadeIn 1s ease-in-out forwards;
-    }
-    
-    .tabs {
-      display: flex;
-      border-bottom: 2px solid var(--accent-color);
-    }
-    
-    .tab {
-      flex: 1;
-      text-align: center;
-      padding: 15px;
-      cursor: pointer;
-      font-weight: bold;
-      background: var(--bg-color);
-      color: var(--text-color);
-    }
-    
-    .tab.active {
-      border-bottom: 4px solid var(--accent-color);
-    }
-    
-    .tab-content {
-      padding: 20px;
-    }
-    
-    /* Карточка товара */
-    .product-card {
-      position: relative;
-      width: 300px;
-      margin: 20px auto;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .product-card img {
-      width: 100%;
-      height: auto;
-      filter: blur(2px);
-    }
-    
-    .card-info {
-      position: absolute;
-      bottom: 0;
-      background: rgba(0,0,0,0.6);
-      width: 100%;
-      padding: 10px;
-      color: #fff;
-      text-align: center;
-    }
-    
-    .card-info h3 {
-      margin: 0;
-      font-size: 1.2em;
-    }
-    
-    .card-info p {
-      margin: 5px 0 0;
-      font-size: 0.9em;
-    }
-    
-    /* Иконка "i" для доп. информации */
-    .info-icon {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: var(--accent-color);
-      color: #fff;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    
-    /* Модальное окно с информацией о товаре */
-    .modal {
-      display: none;
-      position: fixed;
-      top:0;
-      left:0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-    
-    .modal-content {
-      background: var(--bg-color);
-      color: var(--text-color);
-      padding: 20px;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 10px;
-      position: relative;
-    }
-    
-    .modal-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-      font-size: 1.2em;
-    }
-    
-    /* Кнопка для приобретения раннего доступа */
-    .buy-button {
-      display: block;
-      width: 80%;
-      padding: 15px;
-      margin: 20px auto;
-      text-align: center;
-      background: var(--accent-color);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 1em;
-    }
-    
-    /* Пример профиля пользователя */
-    #profile-section {
-      text-align: center;
-    }
-    
-    #profile-section img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    
-    #profile-section input {
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElevenX Launcher</title>
 
-    /* Баннер приглашения установить приложение */
-    #install-banner {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-color);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      display: none;
-      z-index: 200;
-    }
-    
-    #install-banner button {
-      margin-left: 10px;
-      background: var(--dark-bg);
-      color: var(--dark-text);
-      border: none;
-      padding: 5px 10px;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-  </style>
-  
-  <!-- Динамическое создание манифеста для PWA -->
-  <script>
-    // Манифест в виде объекта
-    const manifestData = {
-      "short_name": "ElevenX",
-      "name": "ElevenX Launcher",
-      "icons": [
+    <!-- Манифест для PWA (встроен в HTML через JSON-объект) -->
+    <script type="application/json" id="manifest">
         {
-          "src": "icon.jpg",
-          "sizes": "192x192",
-          "type": "image/jpeg"
-        },
-        {
-          "src": "icon.jpg",
-          "sizes": "512x512",
-          "type": "image/jpeg"
+            "name": "ElevenX Launcher",
+            "short_name": "ElevenX",
+            "start_url": "index.html",
+            "display": "standalone",
+            "background_color": "#1a1a1a",
+            "theme_color": "#ff6200",
+            "icons": [
+                {
+                    "src": "icon.PNG",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                }
+            ]
         }
-      ],
-      "start_url": ".",
-      "background_color": "#ffffff",
-      "display": "standalone",
-      "scope": "/",
-      "theme_color": "#ff8800"
-    };
-    const manifestString = JSON.stringify(manifestData);
-    const blob = new Blob([manifestString], {type: 'application/json'});
-    const manifestURL = URL.createObjectURL(blob);
-    const manifestEl = document.createElement('link');
-    manifestEl.rel = 'manifest';
-    manifestEl.href = manifestURL;
-    document.head.appendChild(manifestEl);
-  </script>
-  
+    </script>
+    <!-- Иконка для добавления на главный экран -->
+    <link rel="apple-touch-icon" href="icon.PNG">
+    <link rel="icon" href="icon.PNG">
+
+    <!-- Стили (встроены в HTML) -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a; /* Тёмная тема по умолчанию */
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Светлая тема */
+        body.light-theme {
+            background: #fff;
+            color: #1a1a1a;
+        }
+
+        /* Экран выбора языка */
+        .language-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff6200, #ff8c00); /* Оранжевый градиент */
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .language-selection h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .language-selection button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #fff;
+            color: #ff6200;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .language-selection button:active {
+            transform: scale(0.95);
+        }
+
+        /* Экран ввода профиля */
+        .profile-setup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-setup input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+            max-width: 300px;
+            border: none;
+            border-radius: 15px;
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .profile-setup button {
+            padding: 10px 20px;
+            background: #ff6200;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        /* Главная страница */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #ff6200;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Карточка товара */
+        .product-card {
+            margin: 20px;
+            background: #2a2a2a;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            filter: blur(2px);
+            opacity: 0.8;
+        }
+
+        .product-card h2 {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        .product-card p {
+            padding: 0 10px 10px;
+            color: #ccc;
+        }
+
+        .info-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6200;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        /* Экран информации о товаре */
+        .product-info {
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-info ul {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .product-info li {
+            margin: 5px 0;
+        }
+
+        .buy-btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background: #ff6200;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        /* Экран профиля */
+        .profile-page {
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-page input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: none;
+            border-radius: 15px;
+            background: #3a3a3a;
+            color: #fff;
+        }
+
+        .profile-page button {
+            padding: 10px;
+            background: #ff6200;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        /* Уведомление о добавлении на главный экран */
+        .add-to-home-screen {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #ff6200;
+            color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .add-to-home-screen button {
+            padding: 10px 20px;
+            background: #fff;
+            color: #ff6200;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
 </head>
-<body class="fade-in">
-  
-  <!-- Баннер установки приложения -->
-  <div id="install-banner">
-    Добавьте приложение на устройство!
-    <button id="install-btn">Установить</button>
-  </div>
-  
-  <!-- Экран выбора языка и ввода ника -->
-  <div id="login-screen">
-    <h1>Выберите язык</h1>
-    <div id="language-options">
-      <button data-lang="ru">Русский</button>
-      <button data-lang="eng">English</button>
+<body>
+    <!-- Экран выбора языка -->
+    <div class="language-selection" id="languageSelection">
+        <h1>Choose Language / Выберите язык</h1>
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('ru')">Русский</button>
     </div>
-    
-    <div id="login-form">
-      <h2>Введите ваш ник</h2>
-      <input type="text" id="nickname" placeholder="Ваш ник">
-      <button id="login-btn">Войти</button>
-    </div>
-  </div>
-  
-  <!-- Основной контент -->
-  <div id="main-content">
-    <div class="tabs">
-      <div class="tab active" data-tab="store">Магазин</div>
-      <div class="tab" data-tab="profile">Профиль</div>
-    </div>
-    
-    <div class="tab-content" id="store">
-      <!-- Карточка товара -->
-      <div class="product-card">
-        <img src="card1.jpg" alt="Обложка товара">
-        <div class="info-icon" id="open-info">i</div>
-        <div class="card-info">
-          <h3>Clumsy</h3>
-          <p>0.33.1</p>
+
+    <!-- Основной контент (скрыт до выбора языка) -->
+    <div class="main-content" id="mainContent" style="display: none;">
+        <!-- Экран ввода ника и аватарки -->
+        <div class="profile-setup" id="profileSetup">
+            <h1 id="welcomeText">Welcome / Добро пожаловать</h1>
+            <div class="avatar-circle" id="avatarCircle" onclick="document.getElementById('avatarInput').click()">
+                <img id="avatarPreview" src="icon.PNG" alt="Avatar">
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="updateAvatar(event)">
+            <input type="text" id="nicknameInput" placeholder="Enter your nickname / Введите ваш ник">
+            <button onclick="saveProfile()">Enter / Войти</button>
         </div>
-      </div>
-      
-      <!-- Кнопка приобретения раннего доступа -->
-      <a href="https://t.me/newfastakk" class="buy-button">Приобрести ранний доступ: 135₽</a>
+
+        <!-- Главная страница -->
+        <div class="home-page" id="homePage" style="display: none;">
+            <header>
+                <h1>ElevenX Launcher</h1>
+                <button onclick="toggleTheme()">🌙</button>
+                <button onclick="showProfile()">👤</button>
+            </header>
+
+            <!-- Карточка товара -->
+            <div class="product-card">
+                <div class="card-image" style="background-image: url('card1.PNG');"></div>
+                <h2>Clumsy</h2>
+                <p>0.33.1</p>
+                <button class="info-btn" onclick="showProductInfo()">i</button>
+            </div>
+
+            <!-- Экран профиля -->
+            <div class="profile-page" id="profilePage" style="display: none;">
+                <h2 id="profileTitle">Profile / Профиль</h2>
+                <div class="avatar-circle">
+                    <img id="profileAvatar" src="icon.PNG" alt="Avatar">
+                </div>
+                <input type="text" id="editNickname" placeholder="Change nickname / Изменить ник">
+                <button onclick="updateProfile()">Save / Сохранить</button>
+                <button onclick="backToHome()">Back / Назад</button>
+            </div>
+
+            <!-- Экран информации о товаре -->
+            <div class="product-info" id="productInfo" style="display: none;">
+                <h2>Clumsy</h2>
+                <p><strong>Method:</strong> External, script</p>
+                <p><strong>Supported Devices (iOS):</strong></p>
+                <ul>
+                    <li>iOS 10-15.0 ✅</li>
+                    <li>iPhone 8 (+) support ✅</li>
+                    <li>iPhone XS, XR, X Support ✅</li>
+                    <li>iPhone 11 (all) ✅</li>
+                    <li>iPhone 12 (all) ✅ (5G maybe issues 🤨)</li>
+                    <li>iPhone 13-16 (all) ✅ (5G issues)</li>
+                    <li>iOS: up to 18.4 (rc) ✅</li>
+                </ul>
+                <p><strong>X Clumsy:</strong> Version 1.0 X alpha</p>
+                <p><strong>Video Review:</strong> (link will be added)</p>
+                <a href="t.me/newfastakk" class="buy-btn">Get Early Access: 135₽</a>
+                <button onclick="backToHome()">Back / Назад</button>
+            </div>
+        </div>
     </div>
-    
-    <div class="tab-content" id="profile" style="display:none;">
-      <div id="profile-section">
-        <h2>Ваш профиль</h2>
-        <img src="icon.jpg" alt="Аватар" id="profile-pic">
-        <p id="display-nick"></p>
-        <input type="text" id="new-nick" placeholder="Новый ник">
-        <button id="update-nick">Обновить ник</button>
-      </div>
+
+    <!-- Уведомление о добавлении на главный экран -->
+    <div class="add-to-home-screen" id="addToHomeScreen">
+        <p id="addToHomeText">Please add this app to your home screen to continue / Пожалуйста, добавьте приложение на главный экран, чтобы продолжить</p>
+        <button onclick="dismissAddToHome()">Dismiss / Пропустить</button>
     </div>
-  </div>
-  
-  <!-- Модальное окно с информацией о товаре -->
-  <div class="modal" id="info-modal">
-    <div class="modal-content">
-      <span class="modal-close" id="modal-close">&times;</span>
-      <h2>Clumsy</h2>
-      <p>method: External, script</p>
-      <p><strong>supported Devices(ios):</strong></p>
-      <ul>
-        <li>ios 10-15.0 ✅</li>
-        <li>iphone 8 (+) support ✅</li>
-        <li>iphone XS.XR.X Support ✅</li>
-        <li>iphone 11 (all) ✅</li>
-        <li>iphone 12 (all) ✅ (на 5g может возникнуть проблема 🤨)</li>
-        <li>iphone 13-16 (all) ✅ (проблемы с 5g)</li>
-      </ul>
-      <p>ios: до 18.4(rc) ✅</p>
-      <p><strong>X clumsy:</strong> version: 1.0 X alpha</p>
-      <p>Видео обзор: <a href="#" target="_blank">ссылка (будет добавлена)</a></p>
-    </div>
-  </div>
-  
-  <!-- Встроенные скрипты (JS) -->
-  <script>
-    // Локальное хранилище для данных пользователя
-    const storageKey = 'elevenXUser';
-    
-    // Элементы экрана логина
-    const loginScreen = document.getElementById('login-screen');
-    const languageOptions = document.getElementById('language-options');
-    const loginForm = document.getElementById('login-form');
-    const loginBtn = document.getElementById('login-btn');
-    const nicknameInput = document.getElementById('nickname');
-    
-    // Элементы основного контента
-    const mainContent = document.getElementById('main-content');
-    const displayNick = document.getElementById('display-nick');
-    const profilePic = document.getElementById('profile-pic');
-    const newNickInput = document.getElementById('new-nick');
-    const updateNickBtn = document.getElementById('update-nick');
-    
-    // Выбранный язык (по умолчанию "ru")
-    let selectedLang = 'ru';
-    Array.from(languageOptions.querySelectorAll('button')).forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectedLang = btn.dataset.lang;
-        languageOptions.style.display = 'none';
-        loginForm.style.display = 'flex';
-      });
-    });
-    
-    // Сохранение и загрузка пользователя
-    function saveUser(user) {
-      localStorage.setItem(storageKey, JSON.stringify(user));
-    }
-    function loadUser() {
-      const userData = localStorage.getItem(storageKey);
-      return userData ? JSON.parse(userData) : null;
-    }
-    
-    // Обработка входа пользователя
-    loginBtn.addEventListener('click', () => {
-      const nick = nicknameInput.value.trim();
-      if(nick) {
-        saveUser({ nick, lang: selectedLang });
-        displayNick.textContent = nick;
-        loginScreen.style.display = 'none';
-        mainContent.style.display = 'block';
-      }
-    });
-    
-    // Обновление ника в профиле
-    updateNickBtn.addEventListener('click', () => {
-      const newNick = newNickInput.value.trim();
-      if(newNick) {
-        let user = loadUser();
-        user.nick = newNick;
-        saveUser(user);
-        displayNick.textContent = newNick;
-        newNickInput.value = '';
-      }
-    });
-    
-    // Переключение табов
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        tabContents.forEach(content => {
-          content.style.display = content.id === tab.dataset.tab ? 'block' : 'none';
+
+    <!-- Скрипты (встроены в HTML) -->
+    <script>
+        // Динамическое добавление манифеста
+        const manifest = document.getElementById('manifest').textContent;
+        const blob = new Blob([manifest], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = url;
+        document.head.appendChild(link);
+
+        // Проверка, добавлено ли приложение на главный экран
+        let deferredPrompt;
+        let isAppInstalled = false;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('addToHomeScreen').style.display = 'block';
         });
-      });
-    });
-    
-    // Модальное окно с информацией о товаре
-    const infoModal = document.getElementById('info-modal');
-    const openInfo = document.getElementById('open-info');
-    const modalClose = document.getElementById('modal-close');
-    openInfo.addEventListener('click', () => {
-      infoModal.style.display = 'flex';
-    });
-    modalClose.addEventListener('click', () => {
-      infoModal.style.display = 'none';
-    });
-    window.addEventListener('click', (e) => {
-      if(e.target === infoModal) {
-        infoModal.style.display = 'none';
-      }
-    });
-    
-    // Если пользователь уже существует, сразу отображаем основной экран
-    document.addEventListener('DOMContentLoaded', () => {
-      const user = loadUser();
-      if(user){
-        displayNick.textContent = user.nick;
-        loginScreen.style.display = 'none';
-        mainContent.style.display = 'block';
-      }
-    });
-    
-    // PWA: Обработка события beforeinstallprompt для показа баннера установки
-    let deferredPrompt;
-    const installBanner = document.getElementById("install-banner");
-    const installBtn = document.getElementById("install-btn");
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBanner.style.display = "block";
-    });
-    
-    installBtn.addEventListener("click", () => {
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(choice => {
-          if(choice.outcome === 'accepted'){
-            console.log("Пользователь установил приложение.");
-          } else {
-            console.log("Пользователь отказался от установки.");
-          }
-          deferredPrompt = null;
-          installBanner.style.display = "none";
+
+        window.addEventListener('appinstalled', () => {
+            isAppInstalled = true;
+            document.getElementById('addToHomeScreen').style.display = 'none';
         });
-      }
-    });
-  </script>
+
+        // Пропустить уведомление о добавлении на главный экран
+        function dismissAddToHome() {
+            document.getElementById('addToHomeScreen').style.display = 'none';
+            alert('Please add the app to your home screen to continue / Пожалуйста, добавьте приложение на главный экран, чтобы продолжить');
+        }
+
+        // Выбор языка
+        function setLanguage(lang) {
+            localStorage.setItem('language', lang);
+            document.getElementById('languageSelection').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            updateLanguage();
+        }
+
+        // Обновление текста в зависимости от языка
+        function updateLanguage() {
+            const lang = localStorage.getItem('language') || 'en';
+            if (lang === 'ru') {
+                document.getElementById('welcomeText').textContent = 'Добро пожаловать';
+                document.getElementById('nicknameInput').placeholder = 'Введите ваш ник';
+                document.getElementById('profileTitle').textContent = 'Профиль';
+                document.getElementById('editNickname').placeholder = 'Изменить ник';
+                document.getElementById('addToHomeText').textContent = 'Пожалуйста, добавьте приложение на главный экран, чтобы продолжить';
+            } else {
+                document.getElementById('welcomeText').textContent = 'Welcome';
+                document.getElementById('nicknameInput').placeholder = 'Enter your nickname';
+                document.getElementById('profileTitle').textContent = 'Profile';
+                document.getElementById('editNickname').placeholder = 'Change nickname';
+                document.getElementById('addToHomeText').textContent = 'Please add this app to your home screen to continue';
+            }
+        }
+
+        // Сохранение профиля
+        function saveProfile() {
+            const nickname = document.getElementById('nicknameInput').value;
+            const avatar = document.getElementById('avatarPreview').src;
+            if (nickname) {
+                localStorage.setItem('nickname', nickname);
+                localStorage.setItem('avatar', avatar);
+                document.getElementById('profileSetup').style.display = 'none';
+                document.getElementById('homePage').style.display = 'block';
+            } else {
+                alert('Please enter a nickname / Пожалуйста, введите ник');
+            }
+        }
+
+        // Обновление аватара
+        function updateAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('avatarPreview').src = e.target.result;
+                    document.getElementById('profileAvatar').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Показать профиль
+        function showProfile() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('profilePage').style.display = 'block';
+            const nickname = localStorage.getItem('nickname') || '';
+            const avatar = localStorage.getItem('avatar') || 'icon.PNG';
+            document.getElementById('editNickname').value = nickname;
+            document.getElementById('profileAvatar').src = avatar;
+        }
+
+        // Обновить профиль
+        function updateProfile() {
+            const newNickname = document.getElementById('editNickname').value;
+            if (newNickname) {
+                localStorage.setItem('nickname', newNickname);
+                alert('Profile updated / Профиль обновлён');
+                backToHome();
+            } else {
+                alert('Please enter a nickname / Пожалуйста, введите ник');
+            }
+        }
+
+        // Показать информацию о товаре
+        function showProductInfo() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('productInfo').style.display = 'block';
+        }
+
+        // Вернуться на главную
+        function backToHome() {
+            document.getElementById('profilePage').style.display = 'none';
+            document.getElementById('productInfo').style.display = 'none';
+            document.getElementById('homePage').style.display = 'block';
+        }
+
+        // Переключение темы
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        }
+
+        // Инициализация
+        window.onload = function() {
+            // Проверка сохранённого языка
+            if (localStorage.getItem('language')) {
+                document.getElementById('languageSelection').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                updateLanguage();
+            }
+
+            // Проверка сохранённой темы
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-theme');
+            }
+
+            // Проверка сохранённого профиля
+            if (localStorage.getItem('nickname')) {
+                document.getElementById('profileSetup').style.display = 'none';
+                document.getElementById('homePage').style.display = 'block';
+            }
+        };
+    </script>
 </body>
 </html>
