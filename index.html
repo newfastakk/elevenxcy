@@ -37,10 +37,19 @@
         }
 
         body {
-            background: #0d0d0d;
+            background: linear-gradient(45deg, #0d0d0d, #1a1a2e, #0d0d0d);
+            background-size: 400%;
             color: #ffffff;
             overflow-x: hidden;
             min-height: 100vh;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        /* Анимированный фон */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* Экран выбора языка */
@@ -86,7 +95,6 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background: #0d0d0d;
             animation: fadeIn 0.5s ease-in-out;
         }
 
@@ -143,6 +151,7 @@
         /* Главная страница */
         .home-page {
             padding: 20px;
+            display: none;
         }
 
         header {
@@ -246,6 +255,7 @@
             border-radius: 20px;
             margin: 20px;
             animation: slideIn 0.5s ease-out;
+            display: none;
         }
 
         .product-info h2 {
@@ -295,6 +305,7 @@
             border-radius: 20px;
             margin: 20px;
             animation: popIn 0.3s ease-out;
+            display: none;
         }
 
         .profile-page h2 {
@@ -345,6 +356,7 @@
             text-align: center;
             box-shadow: 0 0 15px rgba(0, 221, 235, 0.5);
             animation: slideUp 0.5s ease-out;
+            display: none;
         }
 
         .add-to-home-screen p {
@@ -398,7 +410,7 @@
         <button onclick="setLanguage('ru')">Русский</button>
     </div>
 
-    <!-- Основной контент (скрыт до выбора языка) -->
+    <!-- Основной контент -->
     <div class="main-content" id="mainContent" style="display: none;">
         <!-- Экран ввода ника и аватарки -->
         <div class="profile-setup" id="profileSetup">
@@ -412,7 +424,7 @@
         </div>
 
         <!-- Главная страница -->
-        <div class="home-page" id="homePage" style="display: none;">
+        <div class="home-page" id="homePage">
             <header>
                 <h1>ElevenX Launcher</h1>
                 <button onclick="toggleTheme()">🌙</button>
@@ -426,37 +438,37 @@
                 <p>0.33.1</p>
                 <button class="info-btn" onclick="showProductInfo()">i</button>
             </div>
+        </div>
 
-            <!-- Экран профиля -->
-            <div class="profile-page" id="profilePage" style="display: none;">
-                <h2 id="profileTitle">Profile / Профиль</h2>
-                <div class="avatar-circle">
-                    <img id="profileAvatar" src="icon.PNG" alt="Avatar">
-                </div>
-                <input type="text" id="editNickname" placeholder="Change nickname / Изменить ник">
-                <button onclick="updateProfile()">Save / Сохранить</button>
-                <button onclick="backToHome()">Back / Назад</button>
+        <!-- Экран профиля -->
+        <div class="profile-page" id="profilePage">
+            <h2 id="profileTitle">Profile / Профиль</h2>
+            <div class="avatar-circle">
+                <img id="profileAvatar" src="icon.PNG" alt="Avatar">
             </div>
+            <input type="text" id="editNickname" placeholder="Change nickname / Изменить ник">
+            <button onclick="updateProfile()">Save / Сохранить</button>
+            <button onclick="backToHome()">Back / Назад</button>
+        </div>
 
-            <!-- Экран информации о товаре -->
-            <div class="product-info" id="productInfo" style="display: none;">
-                <h2>Clumsy</h2>
-                <p><strong>Method:</strong> External, script</p>
-                <p><strong>Supported Devices (iOS):</strong></p>
-                <ul>
-                    <li>iOS 10-15.0 ✅</li>
-                    <li>iPhone 8 (+) support ✅</li>
-                    <li>iPhone XS, XR, X Support ✅</li>
-                    <li>iPhone 11 (all) ✅</li>
-                    <li>iPhone 12 (all) ✅ (5G maybe issues 🤨)</li>
-                    <li>iPhone 13-16 (all) ✅ (5G issues)</li>
-                    <li>iOS: up to 18.4 (rc) ✅</li>
-                </ul>
-                <p><strong>X Clumsy:</strong> Version 1.0 X alpha</p>
-                <p><strong>Video Review:</strong> (link will be added)</p>
-                <a href="t.me/newfastakk" class="buy-btn">Get Early Access: 135₽</a>
-                <button onclick="backToHome()">Back / Назад</button>
-            </div>
+        <!-- Экран информации о товаре -->
+        <div class="product-info" id="productInfo">
+            <h2>Clumsy</h2>
+            <p><strong>Method:</strong> External, script</p>
+            <p><strong>Supported Devices (iOS):</strong></p>
+            <ul>
+                <li>iOS 10-15.0 ✅</li>
+                <li>iPhone 8 (+) support ✅</li>
+                <li>iPhone XS, XR, X Support ✅</li>
+                <li>iPhone 11 (all) ✅</li>
+                <li>iPhone 12 (all) ✅ (5G maybe issues 🤨)</li>
+                <li>iPhone 13-16 (all) ✅ (5G issues)</li>
+                <li>iOS: up to 18.4 (rc) ✅</li>
+            </ul>
+            <p><strong>X Clumsy:</strong> Version 1.0 X alpha</p>
+            <p><strong>Video Review:</strong> (link will be added)</p>
+            <a href="t.me/newfastakk" class="buy-btn">Get Early Access: 135₽</a>
+            <button onclick="backToHome()">Back / Назад</button>
         </div>
     </div>
 
@@ -553,8 +565,12 @@
 
         // Показать профиль
         function showProfile() {
+            // Скрываем другие экраны
             document.getElementById('homePage').style.display = 'none';
+            document.getElementById('productInfo').style.display = 'none';
+            // Показываем экран профиля
             document.getElementById('profilePage').style.display = 'block';
+            // Загружаем данные профиля
             const nickname = localStorage.getItem('nickname') || '';
             const avatar = localStorage.getItem('avatar') || 'icon.PNG';
             document.getElementById('editNickname').value = nickname;
@@ -567,7 +583,7 @@
             if (newNickname) {
                 localStorage.setItem('nickname', newNickname);
                 alert('Profile updated / Профиль обновлён');
-                backToHome();
+                showProfile(); // Обновляем экран профиля
             } else {
                 alert('Please enter a nickname / Пожалуйста, введите ник');
             }
@@ -575,14 +591,19 @@
 
         // Показать информацию о товаре
         function showProductInfo() {
+            // Скрываем другие экраны
             document.getElementById('homePage').style.display = 'none';
+            document.getElementById('profilePage').style.display = 'none';
+            // Показываем экран информации
             document.getElementById('productInfo').style.display = 'block';
         }
 
         // Вернуться на главную
         function backToHome() {
+            // Скрываем другие экраны
             document.getElementById('profilePage').style.display = 'none';
             document.getElementById('productInfo').style.display = 'none';
+            // Показываем главную страницу
             document.getElementById('homePage').style.display = 'block';
         }
 
